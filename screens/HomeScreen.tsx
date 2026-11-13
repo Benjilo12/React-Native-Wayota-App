@@ -68,7 +68,10 @@ const HomeScreen = () => {
             <Text className="text-center text-white text-4xl font-bold  px-5">
               Plan your next adventure
             </Text>
-            <TouchableOpacity className="bg-orange-500 px-6 py-3 rounded-full mt-4">
+            <TouchableOpacity
+              className="bg-orange-500 px-6 py-3 rounded-full mt-4"
+              onPress={() => navigation.navigate("NewTrip")}
+            >
               <Text className="text-white font-semibold text-base">
                 Create new trip plan
               </Text>

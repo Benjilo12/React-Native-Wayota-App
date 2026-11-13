@@ -1,8 +1,9 @@
 import { createNativeStackNavigator } from "@react-navigation/native-stack";
-import { StyleSheet, Text, View } from "react-native";
+import { ActivityIndicator, StyleSheet, Text, View } from "react-native";
 import TabNavigator from "./TabNavigator";
 import SignInScreen from "../screens/SignInScreen";
 import SignUpScreen from "../screens/SignUpScreen";
+import { useAuth } from "@clerk/expo";
 
 export type RootStackParamList = {
   Auth: undefined;
@@ -14,11 +15,18 @@ export type RootStackParamList = {
 const Stack = createNativeStackNavigator<RootStackParamList>();
 
 const RootNavigation = () => {
-  // const {isLoaded, isSignedIn} = useAuth()
-  const signIn = false;
+  const { isLoaded, isSignedIn } = useAuth();
+
+  if (!isLoaded) {
+    return (
+      <View style={{ flex: 1, justifyContent: "center", alignItems: "center" }}>
+        <ActivityIndicator size="large" color="#FF5722" />
+      </View>
+    );
+  }
   return (
     <Stack.Navigator screenOptions={{ headerShown: false }}>
-      {signIn ? (
+      {isSignedIn ? (
         <Stack.Screen name="Main" component={TabNavigator} />
       ) : (
         <Stack.Group>

@@ -7,16 +7,51 @@ import {
 } from "react-native";
 import React, { useState } from "react";
 import { useNavigation } from "@react-navigation/native";
+import type { NativeStackNavigationProp } from "@react-navigation/native-stack";
+import type { RootStackParamList } from "../navigation/RootNavigation";
 import GoogleSignIn from "../components/GoogleSignIn";
+import { useSignIn } from "@clerk/expo";
 
 const SignInScreen = () => {
+  const { signIn } = useSignIn();
   const [emailAddress, setEmailAddress] = useState("");
   const [password, setPassword] = useState("");
   const [error, setError] = useState("");
-  const navigation = useNavigation();
+  const navigation =
+    useNavigation<NativeStackNavigationProp<RootStackParamList, "SignIn">>();
+
+  const onSignInPress = async () => {
+    setError("");
+    try {
+      const { error: signInError } = await signIn.password({
+        identifier: emailAddress,
+        password,
+      });
+      if (signInError) {
+        setError(signInError.message);
+        return;
+      }
+
+      if (signIn.status !== "complete") {
+        setError("Additional verification is required to finish signing in.");
+        return;
+      }
+
+      const { error: finalizeError } = await signIn.finalize();
+      if (finalizeError) {
+        setError(finalizeError.message);
+      }
+    } catch (error) {
+      setError(
+        error instanceof Error
+          ? error.message
+          : "Unable to sign in. Please try again.",
+      );
+    }
+  };
   return (
     <View style={styles.container}>
-      <Text style={styles.title}>SignIn</Text>
+      <Text style={styles.title}>Sign In</Text>
 
       <TextInput
         autoCapitalize="none"
@@ -33,7 +68,9 @@ const SignInScreen = () => {
         value={password}
       />
 
-      <TouchableOpacity style={styles.button}>
+      {error ? <Text style={styles.error}>{error}</Text> : null}
+
+      <TouchableOpacity onPress={onSignInPress} style={styles.button}>
         <Text style={styles.buttonText}>Continue</Text>
       </TouchableOpacity>
 

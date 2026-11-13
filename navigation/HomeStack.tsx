@@ -1,6 +1,7 @@
 import { Text, View, StyleSheet } from "react-native";
 import { createNativeStackNavigator } from "@react-navigation/native-stack";
 import HomeScreen from "../screens/HomeScreen";
+import NewTripScreeen from "../screens/NewTripScreeen";
 
 export type HomeStackParamList = {
   HomeMain: undefined;
@@ -14,6 +15,7 @@ const HomeStack = () => {
   return (
     <Stack.Navigator screenOptions={{ headerShown: false }}>
       <Stack.Screen name="HomeMain" component={HomeScreen} />
+      <Stack.Screen name="NewTrip" component={NewTripScreeen} />
     </Stack.Navigator>
   );
 };

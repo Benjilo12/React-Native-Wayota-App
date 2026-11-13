@@ -33,7 +33,7 @@ const destinations = [
 
 const PopularDestination = () => {
   return (
-    <View className="mt-2">
+    <View className="mt-2 bg-blue-100 py-3">
       <ScrollView
         horizontal
         showsHorizontalScrollIndicator={false}

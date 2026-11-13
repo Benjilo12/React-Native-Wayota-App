@@ -2,6 +2,7 @@
   "expo": {
     "name": "wayora-app-yt",
     "slug": "wayora-app-yt",
+    "scheme": "wayora",
     "version": "1.0.0",
     "orientation": "portrait",
     "icon": "./assets/icon.png",
@@ -20,6 +21,10 @@
     },
     "web": {
       "favicon": "./assets/favicon.png"
-    }
+    },
+    "plugins": [
+      "@clerk/expo",
+      "expo-secure-store"
+    ]
   }
 }
