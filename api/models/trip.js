@@ -105,7 +105,7 @@ const tripSchema = new mongoose.Schema({
     required: true,
   },
   endDate: {
-    type: string,
+    type: String,
     required: true,
   },
   startDay: {
